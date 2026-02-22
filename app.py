@@ -20,7 +20,7 @@ def get_video():
             'quiet': True,
             'no_warnings': True,
             'geo_bypass': True, # Coğrafi engelleri aş.
-            # 'cookiefile': 'cookies.txt', # İleride Instagram/X tam kilitlenirse başındaki # işaretini kaldırıp çerezleri devreye sokacağız.
+            'cookiefile': 'cookies.txt', # İleride Instagram/X tam kilitlenirse başındaki # işaretini kaldırıp çerezleri devreye sokacağız.
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -32,4 +32,5 @@ def get_video():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
