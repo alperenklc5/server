@@ -15,7 +15,13 @@ def get_video():
         if not video_url:
             return jsonify({"status": "error", "message": "Link yok"}), 400
 
-        ydl_opts = {'format': 'best', 'quiet': True, 'forceurl': True, 'simulate': True}
+        ydl_opts = {
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best', # Android MP4 sever, zorla MP4 bul.
+            'quiet': True,
+            'no_warnings': True,
+            'geo_bypass': True, # Coğrafi engelleri aş.
+            # 'cookiefile': 'cookies.txt', # İleride Instagram/X tam kilitlenirse başındaki # işaretini kaldırıp çerezleri devreye sokacağız.
+        }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
@@ -26,3 +32,4 @@ def get_video():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
