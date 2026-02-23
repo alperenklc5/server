@@ -1,5 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 import yt_dlp
+import os
+print("Mevcut klasör içeriği:", os.listdir())
+if os.path.exists('templates'):
+    print("Templates klasörü içeriği:", os.listdir('templates'))
 
 app = Flask(__name__)
 
@@ -66,6 +70,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
