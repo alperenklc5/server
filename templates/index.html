@@ -8,6 +8,55 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const downloadForm = document.getElementById('downloadForm');
+    
+    if (downloadForm) {
+        downloadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const urlInput = document.getElementById('urlInput');
+            const status = document.getElementById('status');
+            const fetchBtn = document.getElementById('fetchBtn');
+            const previewCard = document.getElementById('previewCard');
+            const downloadLink = document.getElementById('downloadLink');
+
+            // Başlatma
+            status.style.display = 'block';
+            status.style.color = '#3b82f6';
+            status.innerHTML = 'Processing video...';
+            fetchBtn.disabled = true;
+            previewCard.style.display = 'none';
+
+            try {
+                const response = await fetch('/get-video', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: urlInput.value })
+                });
+
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    status.style.display = 'none';
+                    document.getElementById('videoTitle').innerText = data.title;
+                    downloadLink.href = data.url;
+                    previewCard.style.display = 'block';
+                } else {
+                    status.style.color = '#dc2626';
+                    status.innerHTML = 'Error: ' + data.message;
+                }
+            } catch (error) {
+                status.style.color = '#dc2626';
+                status.innerHTML = 'Connection failed!';
+            } finally {
+                fetchBtn.disabled = false;
+            }
+        });
+    }
+});
+</script>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* Çok hafif, temiz gri/mavi arka plan */
