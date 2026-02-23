@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify , render_template
 import yt_dlp
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return "Sunucu Calisiyor!"
+    return render_template('index.html')
 
 @app.route('/get-video', methods=['POST'])
 def get_video():
@@ -32,5 +32,6 @@ def get_video():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
