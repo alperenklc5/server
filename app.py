@@ -8,9 +8,12 @@ if os.path.exists('templates'):
 app = Flask(__name__)
 
 # Mevcut home() kısmını bununla değiştir
+import time # Dosyanın en başına ekle
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Tarayıcıya her seferinde yeni bir 'versiyon' numarası gönderiyoruz
+    return render_template('index.html', v=time.time())
 
 @app.route('/get-video', methods=['POST'])
 def get_video():
@@ -70,6 +73,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
