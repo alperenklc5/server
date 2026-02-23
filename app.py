@@ -15,13 +15,21 @@ def get_video():
         if not video_url:
             return jsonify({"status": "error", "message": "Link yok"}), 400
 
+      # Gelen linke göre motorun vitesini (formatını) belirliyoruz
+        if 'vk.com' in url:
+            # VK için senin o özel HEVC ayarın (eski kodunda ne yazıyorsa tam onu buraya koyabilirsin)
+            # Örnek bir HEVC destekli format:
+            secilen_format = 'bestvideo[vcodec~="^hev|^h265"]+bestaudio/best'
+        else:
+            # YouTube ve diğer tüm siteler için takılmayan, esnek ayarımız
+            secilen_format = 'best[ext=mp4]/best'
+
+        # Motorun Ana Ayarları
         ydl_opts = {
-            'format': 'bestvideo+bestaudio/best', 
-            'merge_output_format': 'mp4', 
-            'quiet': True,
-            'no_warnings': True,
-            'geo_bypass': True,
+            'format': secilen_format,
             'cookiefile': 'cookies.txt',
+            'quiet': True,
+            'no_warnings': True
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -52,4 +60,5 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
