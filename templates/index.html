@@ -16,6 +16,30 @@
             flex-direction: column;
             min-height: 100vh;
         }
+       
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Video Downloader PRO</h1>
+        
+        <form id="downloadForm" class="mx-auto" style="max-width: 600px;">
+            <div class="input-group mb-3 shadow-sm">
+                <input type="text" id="urlInput" class="form-control form-control-lg" placeholder="Paste video link here..." required>
+                <button class="btn btn-primary px-4" type="submit" id="fetchBtn">
+                    <i class="bi bi-download me-2"></i> Extract Video
+                </button>
+            </div>
+        </form>
+
+        <div id="status" class="mt-3 text-center" style="display: none;"></div>
+
+        <div id="previewCard" class="card mt-4 mx-auto shadow" style="display: none; max-width: 500px; border-radius: 15px;">
+            <div class="card-body text-center">
+                <h5 id="videoTitle" class="card-title mb-3 fw-bold">Video Ready!</h5>
+                <a id="downloadLink" href="#" class="btn btn-success btn-lg w-100" style="border-radius: 10px;">
+                    <i class="bi bi-cloud-arrow-down-fill me-2"></i> Download Video
+                </a>
+            </div>
+        </div>
+    </div>
         .hero-section {
             padding: 80px 20px 40px;
             text-align: center;
