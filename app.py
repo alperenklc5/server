@@ -19,7 +19,7 @@ def get_video():
         if 'vk.com' in video_url:
             secilen_format = 'bestvideo[vcodec~="^hev|^h265"]+bestaudio/best'
         else:
-            secilen_format = 'best[ext=mp4]/best'
+            secilen_format = 'b'
 
         ydl_opts = {
             'format': secilen_format,
@@ -65,6 +65,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
