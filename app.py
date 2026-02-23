@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify , render_template
+from flask import Flask, request, jsonify, render_template
 import yt_dlp
 
 app = Flask(__name__)
@@ -15,7 +15,6 @@ def get_video():
         if not video_url:
             return jsonify({"status": "error", "message": "Link yok"}), 400
 
-        # DİKKAT: ydl_opts tam olarak üstteki "if" ile aynı hizada başlamalı!
         ydl_opts = {
             'format': 'bestvideo+bestaudio/best', 
             'merge_output_format': 'mp4', 
@@ -26,9 +25,6 @@ def get_video():
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # ... geri kalan kodlar ...
-        
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
             return jsonify({"status": "success", "url": info.get('url'), "title": info.get('title', 'video')})
 
@@ -37,8 +33,3 @@ def get_video():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
-
-
-
-
-
