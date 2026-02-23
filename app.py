@@ -24,11 +24,17 @@ def get_video():
             secilen_format = 'best[ext=mp4]/best'
 
         # 3. Motor Ayarları
-        ydl_opts = {
+       ydl_opts = {
             'format': secilen_format,
             'cookiefile': 'cookies.txt',
             'quiet': True,
-            'no_warnings': True
+            'no_warnings': True,
+            # İŞTE YENİ KAMUFLAJ ZIRHIMIZ: Android cihaz taklidi yapıyoruz!
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'web']
+                }
+            }
         }
 
         # 4. İndirme İşlemi (Senin mevcut kodlarının devamı)
@@ -64,6 +70,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
