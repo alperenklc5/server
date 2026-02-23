@@ -23,11 +23,14 @@ def get_video():
             secilen_format = 'b'
 
         # Sadece temiz çerez ve format, maske yok!
+       # Motorun En Güçlü Ayarı: Görüntü ve Sesi En İyi Kalitede Alıp Birleştirir
         ydl_opts = {
-            'format': secilen_format,
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
             'cookiefile': 'cookies.txt',
             'quiet': True,
-            'no_warnings': True
+            'no_warnings': True,
+            # Birleştirme işlemi için gerekli ayar:
+            'merge_output_format': 'mp4'
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -62,6 +65,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
