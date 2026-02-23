@@ -15,16 +15,18 @@ def get_video():
         if not video_url:
             return jsonify({"status": "error", "message": "Link yok"}), 400
 
-       ydl_opts = {
-            # Bütün formatları serbest bıraktık (HEVC dahil en yüksek kaliteyi seçecek)
+        # DİKKAT: ydl_opts tam olarak üstteki "if" ile aynı hizada başlamalı!
+        ydl_opts = {
             'format': 'bestvideo+bestaudio/best', 
-            # İndikten sonra ffmpeg ile her şeyi standart mp4 formatında paketleyecek
             'merge_output_format': 'mp4', 
             'quiet': True,
             'no_warnings': True,
             'geo_bypass': True,
-            'cookiefile': 'cookies.txt', # Daha önce eklemiştik, durmaya devam etsin
+            'cookiefile': 'cookies.txt',
         }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # ... geri kalan kodlar ...
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
@@ -35,6 +37,7 @@ def get_video():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
