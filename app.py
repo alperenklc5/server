@@ -10,26 +10,22 @@ def home():
 @app.route('/get-video', methods=['POST'])
 def get_video():
     try:
-        # 1. Siteden gelen linki alıp 'video_url' değişkenine atıyoruz
         data = request.json
         video_url = data.get('url')
         
         if not video_url:
             return jsonify({'status': 'error', 'message': 'Lütfen geçerli bir link girin.'})
 
-        # 2. Akıllı Vites: Linkin içinde vk.com var mı diye bakıyoruz
         if 'vk.com' in video_url:
             secilen_format = 'bestvideo[vcodec~="^hev|^h265"]+bestaudio/best'
         else:
             secilen_format = 'best[ext=mp4]/best'
 
-        # 3. Motor Ayarları
-       ydl_opts = {
+        ydl_opts = {
             'format': secilen_format,
             'cookiefile': 'cookies.txt',
             'quiet': True,
             'no_warnings': True,
-            # İŞTE YENİ KAMUFLAJ ZIRHIMIZ: Android cihaz taklidi yapıyoruz!
             'extractor_args': {
                 'youtube': {
                     'player_client': ['android', 'web']
@@ -37,7 +33,6 @@ def get_video():
             }
         }
 
-        # 4. İndirme İşlemi (Senin mevcut kodlarının devamı)
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
             return jsonify({
@@ -70,6 +65,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
