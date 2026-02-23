@@ -173,59 +173,60 @@
     </div>
 
     <script>
-        async function fetchVideo() {
-            const urlInput = document.getElementById('videoUrl').value.trim();
-            const status = document.getElementById('status');
-            const fetchBtn = document.getElementById('fetchBtn');
-            const previewCard = document.getElementById('previewCard');
-            
-            if (!urlInput) { 
-                alert("Please paste a valid video link!"); 
-                return; 
-            }
-
-            // İşlem başlıyor: UI Sıfırlama
-            previewCard.style.display = 'none';
-            status.style.display = 'block';
-            status.style.color = '#2563eb';
-            status.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Extracting video data...';
-            fetchBtn.disabled = true;
-            fetchBtn.innerHTML = 'Processing...';
-            
-            try {
-                const response = await fetch('/get-video', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: urlInput })
-                });
-                const data = await response.json();
-                
-              if (data.status === "success") {
-    status.style.display = 'none';
-
-    // Önizleme kartını doldur
-    document.getElementById('videoTitle').innerText = data.title || "Video processed successfully!";
+       document.getElementById('downloadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
     
-    // BURAYI GÜNCELLE: Hem href'i hem de butonu sağlama alıyoruz
-    const dLink = document.getElementById('downloadLink');
-    dLink.href = data.url;
-    dLink.setAttribute('target', '_blank'); // Yeni sekmede açması için
-    dLink.setAttribute('download', '');    // İndirmeyi zorlaması için
+    const urlInput = document.getElementById('urlInput').value;
+    const status = document.getElementById('status');
+    const fetchBtn = document.getElementById('fetchBtn');
+    const previewCard = document.getElementById('previewCard');
+    const downloadLink = document.getElementById('downloadLink');
 
-    previewCard.style.display = 'block';
-}
-                } else {
-                    status.style.color = '#dc2626';
-                    status.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Error: ' + data.message;
-                }
-            } catch (error) {
-                status.style.color = '#dc2626';
-                status.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Server connection failed! Please try again.';
-            } finally {
-                fetchBtn.disabled = false;
-                fetchBtn.innerHTML = '<i class="bi bi-download me-2"></i> Extract Video';
-            }
+    // Temizlik ve yükleniyor animasyonu
+    status.style.display = 'block';
+    status.style.color = '#3b82f6';
+    status.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing video...';
+    fetchBtn.disabled = true;
+    previewCard.style.display = 'none';
+
+    try {
+        const response = await fetch('/get-video', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: urlInput })
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+            status.style.display = 'none';
+
+            // Başlık ve Link atama
+            document.getElementById('videoTitle').innerText = data.title || "Video Ready!";
+            
+            // Linki hem href'e hem de butonun kendisine işliyoruz
+            downloadLink.href = data.url;
+            downloadLink.target = "_blank";
+            downloadLink.rel = "noopener noreferrer";
+            
+            // İndirmeyi tetiklemek için zorunlu ayarlar
+            downloadLink.setAttribute('download', ''); 
+
+            // Kartı göster
+            previewCard.style.display = 'block';
+        } else {
+            // Hata yönetimi
+            status.style.color = '#dc2626';
+            status.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Error: ' + data.message;
         }
+    } catch (error) {
+        status.style.color = '#dc2626';
+        status.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Server connection failed!';
+    } finally {
+        fetchBtn.disabled = false;
+        fetchBtn.innerHTML = '<i class="bi bi-download me-2"></i> Extract Video';
+    }
+});
     </script>
 </body>
 </html>
