@@ -16,21 +16,18 @@ def get_video():
         if not video_url:
             return jsonify({'status': 'error', 'message': 'Lütfen geçerli bir link girin.'})
 
+        # Akıllı vites: VK için özel, diğerleri için 'b' (ne bulursan al gel)
         if 'vk.com' in video_url:
             secilen_format = 'bestvideo[vcodec~="^hev|^h265"]+bestaudio/best'
         else:
             secilen_format = 'b'
 
+        # Sadece temiz çerez ve format, maske yok!
         ydl_opts = {
             'format': secilen_format,
             'cookiefile': 'cookies.txt',
             'quiet': True,
-            'no_warnings': True,
-            'extractor_args': {
-                'youtube': {
-                    'player_client': ['android', 'web']
-                }
-            }
+            'no_warnings': True
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -65,6 +62,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
