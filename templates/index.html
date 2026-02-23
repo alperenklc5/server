@@ -200,13 +200,20 @@
                 });
                 const data = await response.json();
                 
-                if (data.status === "success") {
-                    status.style.display = 'none'; // Yükleniyor yazısını gizle
-                    
-                    // Önizleme kartını doldur ve göster
-                    document.getElementById('videoTitle').innerText = data.title || "Video processed successfully!";
-                    document.getElementById('downloadLink').href = data.url;
-                    previewCard.style.display = 'block';
+              if (data.status === "success") {
+    status.style.display = 'none';
+
+    // Önizleme kartını doldur
+    document.getElementById('videoTitle').innerText = data.title || "Video processed successfully!";
+    
+    // BURAYI GÜNCELLE: Hem href'i hem de butonu sağlama alıyoruz
+    const dLink = document.getElementById('downloadLink');
+    dLink.href = data.url;
+    dLink.setAttribute('target', '_blank'); // Yeni sekmede açması için
+    dLink.setAttribute('download', '');    // İndirmeyi zorlaması için
+
+    previewCard.style.display = 'block';
+}
                 } else {
                     status.style.color = '#dc2626';
                     status.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Error: ' + data.message;
