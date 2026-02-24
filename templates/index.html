@@ -3,45 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Downloader PRO - Hızlı & Ücretsiz</title>
-    <a id="downloadLink" href="javascript:void(0)" target="_blank" class="btn btn-success btn-lg w-100 shadow-sm" style="display: none; border-radius: 10px;">
-    <i class="bi bi-download me-2"></i> Hemen İndir (MP4)
-    </a>
+    <title>Video Downloader PRO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f8fafc; font-fahrmily: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; }
-        .main-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .input-group { border-radius: 12px; overflow: hidden; }
-        .btn-extract { padding: 12px 30px; font-weight: 600; }
-        #previewCard { border-radius: 15px; border: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height: 100vh; display: flex; align-items: center; }
+        .download-card { border: none; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); background: white; padding: 40px; }
+        .btn-extract { border-radius: 10px; font-weight: 600; padding: 12px 25px; }
+        #downloadLink { border-radius: 12px; font-weight: bold; transition: transform 0.2s; }
+        #downloadLink:hover { transform: scale(1.02); }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="text-center mb-5">
-                    <h1 class="fw-bold text-dark">Video Downloader PRO</h1>
-                    <p class="text-muted">Herhangi bir platformdan anında yüksek kaliteli video indirin.</p>
-                </div>
-
-                <div class="card main-card p-4">
+            <div class="col-md-6">
+                <div class="download-card text-center">
+                    <h1 class="mb-4 fw-bold text-primary">Video Downloader PRO</h1>
+                    
                     <form id="downloadForm">
-                        <div class="input-group mb-3 shadow-sm">
-                            <input type="text" id="urlInput" class="form-control form-control-lg border-0" placeholder="Video linkini buraya yapıştırın..." required>
-                            <button class="btn btn-primary btn-extract" type="submit" id="fetchBtn">
-                                <i class="bi bi-magic me-2"></i> Çözümle
-                            </button>
+                        <div class="mb-3">
+                            <input type="text" id="urlInput" class="form-control form-control-lg text-center" placeholder="Video linkini yapıştırın..." required style="border-radius: 12px;">
                         </div>
+                        <button type="submit" id="fetchBtn" class="btn btn-primary btn-lg w-100 btn-extract">
+                            <i class="bi bi-magic me-2"></i> Çözümle
+                        </button>
                     </form>
 
-                    <div id="status" class="mt-3 text-center" style="display: none; font-weight: 500;"></div>
+                    <div id="status" class="mt-4" style="display: none;"></div>
 
-                    <div id="previewCard" class="mt-4 p-4 bg-light text-center" style="display: none;">
-                        <i class="bi bi-check-circle-fill text-success mb-2" style="font-size: 2rem;"></i>
-                        <h5 id="videoTitle" class="mb-4 fw-bold text-truncate">Video Başlığı</h5>
-                        <a id="downloadLink" href="#" target="_blank" class="btn btn-success btn-lg w-100 shadow-sm" style="border-radius: 10px;">
-                            <i class="bi bi-download me-2"></i> Hemen İndir (MP4)
+                    <div id="previewCard" class="mt-4" style="display: none;">
+                        <h5 id="videoTitle" class="text-dark mb-4 fw-bold">Video Hazır!</h5>
+                        <a id="downloadLink" href="javascript:void(0)" target="_blank" class="btn btn-success btn-lg w-100 shadow">
+                            <i class="bi bi-cloud-arrow-down-fill me-2"></i> Videoyu İndir (MP4)
                         </a>
                     </div>
                 </div>
@@ -49,58 +44,59 @@
         </div>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Kodun çalıştığını teyit etmek için konsola yazı basalım
-    console.log("SİSTEM GÜNCEL: Versiyon 2.1 devrede!");
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log("SİSTEM GÜNCEL: Versiyon 2.2 Aktif!");
 
-    const downloadForm = document.getElementById('downloadForm');
-    
-    if (downloadForm) {
-        downloadForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const urlInput = document.getElementById('urlInput');
-            const status = document.getElementById('status');
-            const fetchBtn = document.getElementById('fetchBtn');
-            const previewCard = document.getElementById('previewCard');
-            const downloadLink = document.getElementById('downloadLink');
+        const downloadForm = document.getElementById('downloadForm');
+        
+        if (downloadForm) {
+            downloadForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const urlInput = document.getElementById('urlInput');
+                const status = document.getElementById('status');
+                const fetchBtn = document.getElementById('fetchBtn');
+                const previewCard = document.getElementById('previewCard');
+                const downloadLink = document.getElementById('downloadLink');
 
-            // Ekran Hazırlığı
-            status.style.display = 'block';
-            status.style.color = '#3b82f6';
-            status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> Video işleniyor...';
-            fetchBtn.disabled = true;
-            previewCard.style.display = 'none';
+                // UI Hazırlığı
+                status.style.display = 'block';
+                status.style.color = '#0d6efd';
+                status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> İşlem yapılıyor...';
+                fetchBtn.disabled = true;
+                previewCard.style.display = 'none';
 
-            try {
-                const response = await fetch('/get-video', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: urlInput.value })
-                });
+                try {
+                    const response = await fetch('/get-video', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: urlInput.value })
+                    });
 
-                const data = await response.json();
+                    const data = await response.json();
 
-                if (data.status === "success") {
-                   const dLink = document.getElementById('downloadLink');
-                   dLink.href = data.url; 
-                   dLink.style.display = 'block'; // Butonu görünür yap
-                   dLink.target = "_blank"; // Videoyu yeni sekmede açması için
-                   dLink.rel = "noopener noreferrer"; // Güvenlik için
-                } else {
-                    status.style.color = '#dc2626';
-                    status.innerHTML = 'Hata: ' + data.message;
+                    if (data.status === "success") {
+                        status.style.display = 'none';
+                        document.getElementById('videoTitle').innerText = data.title;
+                        
+                        // Linki butona enjekte et
+                        downloadLink.href = data.url; 
+                        
+                        previewCard.style.display = 'block';
+                    } else {
+                        status.style.color = '#dc3545';
+                        status.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Hata: ' + data.message;
+                    }
+                } catch (error) {
+                    status.style.color = '#dc3545';
+                    status.innerHTML = 'Bağlantı kesildi!';
+                } finally {
+                    fetchBtn.disabled = false;
                 }
-            } catch (error) {
-                status.style.color = '#dc2626';
-                status.innerHTML = 'Sunucu bağlantı hatası!';
-            } finally {
-                fetchBtn.disabled = false;
-            }
-        });
-    }
-}); // <--- İşte buralarda bir parantez eksikti!
-</script>
+            });
+        }
+    });
+    </script>
 </body>
 </html>
