@@ -81,7 +81,9 @@
                         document.getElementById('videoTitle').innerText = data.title;
                         
                         // Linki butona enjekte et
-                        downloadLink.href = data.url; 
+                        dLink.href = data.url; 
+                        dLink.removeAttribute('download'); // Bazı tarayıcıların kafası karışmasın diye
+                        dLink.style.display = 'block'; 
                         
                         previewCard.style.display = 'block';
                     } else {
