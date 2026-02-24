@@ -67,35 +67,52 @@
                 fetchBtn.disabled = true;
                 previewCard.style.display = 'none';
 
-                try {
-                    const response = await fetch('/get-video', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ url: urlInput.value })
-                    });
+                // ... önceki kısımlar aynı (status.style.display = 'block' vs.)
 
-                    const data = await response.json();
+try {
+    console.log("ADIM 1: Link sunucuya gönderiliyor... Link:", urlInput.value);
+    
+    const response = await fetch('/get-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: urlInput.value })
+    });
 
-                    if (data.status === "success") {
-                        status.style.display = 'none';
-                        document.getElementById('videoTitle').innerText = data.title;
-                        
-                        // Linki butona enjekte et
-                        dLink.href = data.url; 
-                        dLink.removeAttribute('download'); // Bazı tarayıcıların kafası karışmasın diye
-                        dLink.style.display = 'block'; 
-                        
-                        previewCard.style.display = 'block';
-                    } else {
-                        status.style.color = '#dc3545';
-                        status.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Hata: ' + data.message;
-                    }
-                } catch (error) {
-                    status.style.color = '#dc3545';
-                    status.innerHTML = 'Bağlantı kesildi!';
-                } finally {
-                    fetchBtn.disabled = false;
-                }
+    console.log("ADIM 2: Sunucudan cevap geldi! Durum Kodu:", response.status);
+
+    // JSON yerine HTML gelip gelmediğini anlamak için ham veriyi okuyoruz
+    const textData = await response.text();
+    console.log("ADIM 3: Sunucudan gelen ham veri:", textData);
+
+    // Şimdi veriyi JSON'a çeviriyoruz
+    const data = JSON.parse(textData);
+    console.log("ADIM 4: Veri JSON formatında okundu!", data);
+
+    if (data.status === "success") {
+        status.style.display = 'none';
+        document.getElementById('videoTitle').innerText = data.title;
+        
+        const dLink = document.getElementById('downloadLink');
+        dLink.href = data.url; 
+        dLink.removeAttribute('download');
+        dLink.style.display = 'block'; 
+        
+        previewCard.style.display = 'block';
+    } else {
+        status.style.color = '#dc3545';
+        status.innerHTML = '<i class="bi bi-x-circle me-1"></i> Hata: ' + data.message;
+    }
+} catch (error) {
+    // İşte sessiz çöküşleri yakalayacağımız yer!
+    console.error("KRİTİK HATA YAKALANDI:", error);
+    status.style.color = '#dc3545';
+    status.innerHTML = 'Bağlantı koptu veya sunucu hatası! Konsola bakın.';
+} finally {
+    fetchBtn.disabled = false;
+    console.log("ADIM 5: İşlem döngüsü bitti.");
+}
+           
+            
             });
         }
     });
