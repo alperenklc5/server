@@ -1,52 +1,113 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Downloader PRO</title>
+    
+    <title>Free Video Downloader PRO | Download MP4 Fast & Secure</title>
+    <meta name="description" content="Free Video Downloader PRO allows you to download high-quality videos from any platform instantly. Fast, secure, and 100% free MP4 video downloader.">
+    <meta name="keywords" content="free video downloader, download video mp4, online video downloader, vk downloader, fast video download, convert to apk">
+    <meta name="author" content="ConvertToAPK">
+    <meta name="robots" content="index, follow">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
-        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height: 100vh; display: flex; align-items: center; }
-        .download-card { border: none; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); background: white; padding: 40px; }
-        .btn-extract { border-radius: 10px; font-weight: 600; padding: 12px 25px; }
-        #downloadLink { border-radius: 12px; font-weight: bold; transition: transform 0.2s; }
-        #downloadLink:hover { transform: scale(1.02); }
+        /* Premium Koyu Tema ve Buzlu Cam (Glassmorphism) Efekti */
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar-custom { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .main-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        .download-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .form-control { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; }
+        .form-control:focus { background: rgba(0,0,0,0.4); color: white; box-shadow: 0 0 15px rgba(13, 110, 253, 0.5); border-color: rgba(13, 110, 253, 0.5); }
+        .form-control::placeholder { color: rgba(255,255,255,0.5); }
+        
+        .btn-extract { border-radius: 12px; font-weight: 600; padding: 12px 25px; transition: 0.3s; }
+        .btn-extract:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4); }
+        
+        #downloadLink { border-radius: 12px; font-weight: bold; transition: 0.3s; }
+        #downloadLink:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(25, 135, 84, 0.4); }
+        
+        /* Çapraz Promosyon Kutusu */
+        .cross-promo { 
+            margin-top: 35px; 
+            padding: 20px; 
+            background: linear-gradient(45deg, rgba(13, 110, 253, 0.1), rgba(25, 135, 84, 0.1)); 
+            border: 1px dashed rgba(255, 255, 255, 0.2); 
+            border-radius: 15px; 
+            transition: 0.3s;
+        }
+        .cross-promo:hover { border-color: rgba(13, 110, 253, 0.6); background: rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="download-card text-center">
-                    <h1 class="mb-4 fw-bold text-primary">Video Downloader PRO</h1>
-                    
-                    <form id="downloadForm">
-                        <div class="mb-3">
-                            <input type="text" id="urlInput" class="form-control form-control-lg text-center" placeholder="Video linkini yapıştırın..." required style="border-radius: 12px;">
-                        </div>
-                        <button type="submit" id="fetchBtn" class="btn btn-primary btn-lg w-100 btn-extract">
-                            <i class="bi bi-magic me-2"></i> Çözümle
-                        </button>
-                    </form>
+    <nav class="navbar navbar-custom w-100 p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="navbar-brand text-white fw-bold mb-0 h4">
+                <i class="bi bi-cloud-arrow-down-fill text-primary me-2"></i>VD PRO
+            </span>
+            <a href="https://converttoapk.com" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold border-2">
+                <i class="bi bi-android2 text-success me-1"></i> Web Siteni APK Yap!
+            </a>
+        </div>
+    </nav>
 
-                    <div id="status" class="mt-4" style="display: none;"></div>
-
-                    <div id="previewCard" class="mt-4" style="display: none;">
-                        <h5 id="videoTitle" class="text-dark mb-4 fw-bold">Video Hazır!</h5>
-                      <a id="downloadLink" href="javascript:void(0)" target="_blank" class="btn btn-success btn-lg w-100 shadow" style="display: none; border-radius: 10px;">
-    <i class="bi bi-cloud-arrow-down-fill me-2"></i> Videoyu İndir (MP4)
-</a>
-                    </div>
+    <div class="main-content">
+        <div class="download-card text-center">
+            <h1 class="mb-2 fw-bold">Free Video Downloader</h1>
+            <p class="text-light mb-4 opacity-75">Download high-quality MP4 videos from any platform instantly.</p>
+            
+            <form id="downloadForm">
+                <div class="mb-4">
+                    <input type="url" id="urlInput" class="form-control form-control-lg text-center" placeholder="Paste video link here..." required>
                 </div>
+                <button type="submit" id="fetchBtn" class="btn btn-primary btn-lg w-100 btn-extract">
+                    <i class="bi bi-magic me-2"></i> Extract Video
+                </button>
+            </form>
+
+            <div id="status" class="mt-4 fw-bold" style="display: none;"></div>
+
+            <div id="previewCard" class="mt-4" style="display: none;">
+                <div class="p-3 bg-dark rounded-3 border border-secondary mb-3 shadow-sm">
+                    <h6 id="videoTitle" class="text-light mb-0 text-truncate">Video Hazır!</h6>
+                </div>
+                <a id="downloadLink" href="javascript:void(0)" target="_blank" class="btn btn-success btn-lg w-100 shadow">
+                    <i class="bi bi-download me-2"></i> Download (MP4)
+                </a>
+            </div>
+
+            <div class="cross-promo">
+                <h5 class="fw-bold mb-2"><i class="bi bi-rocket-takeoff text-warning me-2"></i>Kendi Uygulamanı Yap!</h5>
+                <p class="small text-light opacity-75 mb-3">Sadece birkaç tıklama ile web siteni veya blogunu profesyonel bir Android APK'sına dönüştür.</p>
+                <a href="https://converttoapk.com" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold">ConvertToAPK'yı Keşfet</a>
             </div>
         </div>
     </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        console.log("SİSTEM GÜNCEL: Versiyon 2.2 Aktif!");
+        console.log("SİSTEM GÜNCEL: SEO & Premium Tasarım devrede!");
 
         const downloadForm = document.getElementById('downloadForm');
         
@@ -62,57 +123,40 @@
 
                 // UI Hazırlığı
                 status.style.display = 'block';
-                status.style.color = '#0d6efd';
-                status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> İşlem yapılıyor...';
+                status.style.color = '#0dcaf0'; // Açık mavi (Koyu temada iyi görünür)
+                status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> Extracting video...';
                 fetchBtn.disabled = true;
                 previewCard.style.display = 'none';
 
-                // ... önceki kısımlar aynı (status.style.display = 'block' vs.)
+                try {
+                    const response = await fetch('/get-video', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: urlInput.value })
+                    });
 
-try {
-    console.log("ADIM 1: Link sunucuya gönderiliyor... Link:", urlInput.value);
-    
-    const response = await fetch('/get-video', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: urlInput.value })
-    });
+                    const textData = await response.text();
+                    const data = JSON.parse(textData);
 
-    console.log("ADIM 2: Sunucudan cevap geldi! Durum Kodu:", response.status);
-
-    // JSON yerine HTML gelip gelmediğini anlamak için ham veriyi okuyoruz
-    const textData = await response.text();
-    console.log("ADIM 3: Sunucudan gelen ham veri:", textData);
-
-    // Şimdi veriyi JSON'a çeviriyoruz
-    const data = JSON.parse(textData);
-    console.log("ADIM 4: Veri JSON formatında okundu!", data);
-
-    if (data.status === "success") {
-        status.style.display = 'none';
-        document.getElementById('videoTitle').innerText = data.title;
-        
-        const dLink = document.getElementById('downloadLink');
-        dLink.href = data.url; 
-        dLink.removeAttribute('download');
-        dLink.style.display = 'block'; 
-        
-        previewCard.style.display = 'block';
-    } else {
-        status.style.color = '#dc3545';
-        status.innerHTML = '<i class="bi bi-x-circle me-1"></i> Hata: ' + data.message;
-    }
-} catch (error) {
-    // İşte sessiz çöküşleri yakalayacağımız yer!
-    console.error("KRİTİK HATA YAKALANDI:", error);
-    status.style.color = '#dc3545';
-    status.innerHTML = 'Bağlantı koptu veya sunucu hatası! Konsola bakın.';
-} finally {
-    fetchBtn.disabled = false;
-    console.log("ADIM 5: İşlem döngüsü bitti.");
-}
-           
-            
+                    if (data.status === "success") {
+                        status.style.display = 'none';
+                        document.getElementById('videoTitle').innerText = data.title;
+                        
+                        downloadLink.href = data.url; 
+                        downloadLink.removeAttribute('download');
+                        downloadLink.style.display = 'block'; 
+                        
+                        previewCard.style.display = 'block';
+                    } else {
+                        status.style.color = '#ff6b6b'; // Açık kırmızı
+                        status.innerHTML = '<i class="bi bi-x-circle me-1"></i> Error: ' + data.message;
+                    }
+                } catch (error) {
+                    status.style.color = '#ff6b6b';
+                    status.innerHTML = 'Connection failed! Please try again.';
+                } finally {
+                    fetchBtn.disabled = false;
+                }
             });
         }
     });
