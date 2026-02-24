@@ -22,34 +22,46 @@ def get_video():
         video_url = data.get('url')
         
         if not video_url:
-            return jsonify({'status': 'error', 'message': 'Lütfen geçerli bir link girin.'})
+        return jsonify({'status': 'error', 'message': 'Lütfen geçerli bir link girin.'})
 
-        # Akıllı vites: VK için özel, diğerleri için 'b' (ne bulursan al gel)
-        if 'vk.com' in video_url:
-            secilen_format = 'bestvideo[vcodec~="^hev|^h265"]+bestaudio/best'
-        else:
-            secilen_format = 'b'
+    # VK için özel HEVC mantığı, ancak '+' (ayrı ayrı indir) yerine tek parça ('best') istiyoruz
+    if 'vk.com' in video_url:
+        secilen_format = 'best[vcodec~="^hev|^h265"]/best'
+    else:
+        secilen_format = 'best' # Diğer siteler için de en iyi tek parça format
 
-        # Sadece temiz çerez ve format, maske yok!
-       # Motorun En Güçlü Ayarı: Görüntü ve Sesi En İyi Kalitede Alıp Birleştirir
-        ydl_opts = {
-            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-            'cookiefile': 'cookies.txt',
-            'quiet': True,
-            'no_warnings': True,
-            # Birleştirme işlemi için gerekli ayar:
-            'merge_output_format': 'mp4'
-        }
+    ydl_opts = {
+        'format': secilen_format, # Özel kuralımızı nihayet buraya bağladık!
+        'cookiefile': 'cookies.txt',
+        'quiet': True,
+        'no_warnings': True
+    }
 
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(video_url, download=False)
-            return jsonify({
-                'status': 'success',
-                'title': info.get('title', 'Video'),
-                'url': info.get('url')
-            })
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(video_url, download=False)
+        
+        # Linki almayı garanti altına alıyoruz
+        extracted_url = info.get('url')
+        
+        # Eğer hala direkt URL yoksa, formatların içine girip birleşik videoyu buluyoruz
+        if not extracted_url and 'formats' in info:
+            for f in reversed(info['formats']): # En kaliteliler genelde sondayken
+                if f.get('vcodec') != 'none' and f.get('acodec') != 'none':
+                    extracted_url = f.get('url')
+                    break
+        
+        # Eğer her şeye rağmen link bulunamadıysa, null göndermek yerine hata fırlat
+        if not extracted_url:
+            return jsonify({'status': 'error', 'message': 'Video gizli veya indirme linki çözülemedi.'})
 
-    except Exception as e:
+        return jsonify({
+            'status': 'success',
+            'title': info.get('title', 'Video'),
+            'url': extracted_url
+        })
+
+        except Exception as e:
+# ... geri kalanı aynı
         return jsonify({'status': 'error', 'message': str(e)})
 @app.route('/update-cookies', methods=['POST'])
 def update_cookies():
@@ -73,6 +85,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
