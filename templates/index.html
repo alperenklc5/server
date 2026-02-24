@@ -8,7 +8,7 @@
     <i class="bi bi-download me-2"></i> Hemen İndir (MP4)
     </a>
     <style>
-        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; }
+        body { background-color: #f8fafc; font-fahrmily: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; }
         .main-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .input-group { border-radius: 12px; overflow: hidden; }
         .btn-extract { padding: 12px 30px; font-weight: 600; }
@@ -83,10 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (data.status === "success") {
-                    status.style.display = 'none';
-                    document.getElementById('videoTitle').innerText = data.title;
-                    downloadLink.href = data.url;
-                    previewCard.style.display = 'block';
+                   const dLink = document.getElementById('downloadLink');
+                   dLink.href = data.url; 
+                   dLink.style.display = 'block'; // Butonu görünür yap
+                   dLink.target = "_blank"; // Videoyu yeni sekmede açması için
+                   dLink.rel = "noopener noreferrer"; // Güvenlik için
                 } else {
                     status.style.color = '#dc2626';
                     status.innerHTML = 'Hata: ' + data.message;
