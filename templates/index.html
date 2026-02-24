@@ -4,111 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Free Video Downloader PRO | Download MP4 Fast & Secure</title>
-    <meta name="description" content="Free Video Downloader PRO allows you to download high-quality videos from any platform instantly. Fast, secure, and 100% free MP4 video downloader.">
-    <meta name="keywords" content="free video downloader, download video mp4, online video downloader, vk downloader, fast video download, convert to apk">
-    <meta name="author" content="ConvertToAPK">
+    <title>Free Video Downloader PRO | Fast & Secure MP4 Download</title>
+    <meta name="description" content="Download high-quality videos from any platform instantly. Fast, secure, and 100% free MP4 video downloader tool.">
+    <meta name="keywords" content="free video downloader, download video mp4, online video downloader, social media downloader, convert website to apk">
     <meta name="robots" content="index, follow">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <style>
-        /* Premium Koyu Tema ve Buzlu Cam (Glassmorphism) Efekti */
+        /* Profesyonel "SaaS" Koyu Teması (Yapay zeka abartılarından arındırılmış tok tasarım) */
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #111827; /* Mat ve tok bir gece grisi */
+            background-image: radial-gradient(circle at top, #1f2937 0%, #111827 70%);
+            color: #f9fafb;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-        .navbar-custom { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .main-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        .navbar-custom { 
+            background-color: #1f2937; 
+            border-bottom: 1px solid #374151; 
+        }
+        
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 2rem 1rem; 
+        }
         
         .download-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            padding: 40px;
+            background-color: #1f2937; /* Cam efekti yerine güven veren tok bir zemin */
+            border: 1px solid #374151;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
         }
         
-        .form-control { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; }
-        .form-control:focus { background: rgba(0,0,0,0.4); color: white; box-shadow: 0 0 15px rgba(13, 110, 253, 0.5); border-color: rgba(13, 110, 253, 0.5); }
-        .form-control::placeholder { color: rgba(255,255,255,0.5); }
+        .form-control { 
+            background-color: #111827; 
+            border: 1px solid #4b5563; 
+            color: #f9fafb; 
+            padding: 1rem 1.2rem; 
+            border-radius: 12px;
+            font-size: 1.1rem;
+        }
         
-        .btn-extract { border-radius: 12px; font-weight: 600; padding: 12px 25px; transition: 0.3s; }
-        .btn-extract:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4); }
+        .form-control:focus { 
+            background-color: #111827; 
+            color: #f9fafb; 
+            border-color: #3b82f6; 
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); 
+        }
         
-        #downloadLink { border-radius: 12px; font-weight: bold; transition: 0.3s; }
-        #downloadLink:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(25, 135, 84, 0.4); }
+        .form-control::placeholder { color: #9ca3af; }
         
-        /* Çapraz Promosyon Kutusu */
+        .btn-extract { 
+            background-color: #2563eb; 
+            border: none;
+            border-radius: 12px; 
+            font-weight: 600; 
+            padding: 1rem; 
+            transition: background-color 0.2s; 
+        }
+        
+        .btn-extract:hover { background-color: #1d4ed8; }
+        
+        #downloadLink { 
+            border-radius: 12px; 
+            font-weight: 600; 
+            padding: 1rem;
+            background-color: #10b981;
+            border: none;
+        }
+        
+        #downloadLink:hover { background-color: #059669; }
+        
+        /* Çift Forvet: Yönlendirme Kutusu (Sol hizalı, profesyonel blog tarzı) */
         .cross-promo { 
-            margin-top: 35px; 
-            padding: 20px; 
-            background: linear-gradient(45deg, rgba(13, 110, 253, 0.1), rgba(25, 135, 84, 0.1)); 
-            border: 1px dashed rgba(255, 255, 255, 0.2); 
-            border-radius: 15px; 
-            transition: 0.3s;
+            margin-top: 2.5rem; 
+            padding: 1.5rem; 
+            background: linear-gradient(to right, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.05)); 
+            border: 1px solid #374151; 
+            border-radius: 12px; 
+            text-align: left;
         }
-        .cross-promo:hover { border-color: rgba(13, 110, 253, 0.6); background: rgba(0,0,0,0.2); }
+        
+        .cross-promo-title { font-size: 1.1rem; font-weight: 700; color: #f3f4f6; margin-bottom: 0.5rem; }
+        .cross-promo-text { font-size: 0.9rem; color: #9ca3af; margin-bottom: 1rem; line-height: 1.5; }
     </style>
 </head>
 <body>
 
     <nav class="navbar navbar-custom w-100 p-3">
         <div class="container d-flex justify-content-between align-items-center">
-            <span class="navbar-brand text-white fw-bold mb-0 h4">
+            <span class="navbar-brand text-white fw-bold mb-0 h5">
                 <i class="bi bi-cloud-arrow-down-fill text-primary me-2"></i>VD PRO
             </span>
-            <a href="https://converttoapk.com" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold border-2">
-                <i class="bi bi-android2 text-success me-1"></i> Web Siteni APK Yap!
+            <a href="https://converttoapk.com" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-medium">
+                <i class="bi bi-phone me-1"></i> Turn Website into App
             </a>
         </div>
     </nav>
 
     <div class="main-content">
         <div class="download-card text-center">
-            <h1 class="mb-2 fw-bold">Free Video Downloader</h1>
-            <p class="text-light mb-4 opacity-75">Download high-quality MP4 videos from any platform instantly.</p>
+            <h1 class="mb-3 fw-bold fs-2">Free Video Downloader</h1>
+            <p class="text-secondary mb-4">Download high-quality MP4 videos from multiple platforms instantly.</p>
             
             <form id="downloadForm">
                 <div class="mb-4">
-                    <input type="url" id="urlInput" class="form-control form-control-lg text-center" placeholder="Paste video link here..." required>
+                    <input type="url" id="urlInput" class="form-control text-center" placeholder="Paste video URL here..." required>
                 </div>
-                <button type="submit" id="fetchBtn" class="btn btn-primary btn-lg w-100 btn-extract">
-                    <i class="bi bi-magic me-2"></i> Extract Video
+                <button type="submit" id="fetchBtn" class="btn btn-primary w-100 btn-extract text-white">
+                    Download Video
                 </button>
             </form>
 
-            <div id="status" class="mt-4 fw-bold" style="display: none;"></div>
+            <div id="status" class="mt-4 fw-medium" style="display: none;"></div>
 
             <div id="previewCard" class="mt-4" style="display: none;">
-                <div class="p-3 bg-dark rounded-3 border border-secondary mb-3 shadow-sm">
-                    <h6 id="videoTitle" class="text-light mb-0 text-truncate">Video Hazır!</h6>
+                <div class="p-3 bg-dark rounded-3 border border-secondary mb-3 text-start">
+                    <span class="badge bg-primary mb-2">Ready</span>
+                    <h6 id="videoTitle" class="text-light mb-0 text-truncate">Video Title</h6>
                 </div>
-                <a id="downloadLink" href="javascript:void(0)" target="_blank" class="btn btn-success btn-lg w-100 shadow">
-                    <i class="bi bi-download me-2"></i> Download (MP4)
+                <a id="downloadLink" href="javascript:void(0)" target="_blank" class="btn btn-success w-100 text-white shadow-sm">
+                    <i class="bi bi-download me-2"></i> Save File (MP4)
                 </a>
             </div>
 
             <div class="cross-promo">
-                <h5 class="fw-bold mb-2"><i class="bi bi-rocket-takeoff text-warning me-2"></i>Kendi Uygulamanı Yap!</h5>
-                <p class="small text-light opacity-75 mb-3">Sadece birkaç tıklama ile web siteni veya blogunu profesyonel bir Android APK'sına dönüştür.</p>
-                <a href="https://converttoapk.com" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold">ConvertToAPK'yı Keşfet</a>
+                <div class="cross-promo-title">
+                    <i class="bi bi-rocket-takeoff text-primary me-2"></i>Build Your Own App!
+                </div>
+                <div class="cross-promo-text">
+                    Transform your website or blog into a professional Android APK in just a few clicks. No coding skills required.
+                </div>
+                <a href="https://converttoapk.com" target="_blank" class="btn btn-outline-secondary border-secondary text-light btn-sm rounded-pill px-4 fw-medium">
+                    Discover ConvertToAPK
+                </a>
             </div>
         </div>
     </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        console.log("SİSTEM GÜNCEL: SEO & Premium Tasarım devrede!");
-
         const downloadForm = document.getElementById('downloadForm');
         
         if (downloadForm) {
@@ -121,10 +167,10 @@
                 const previewCard = document.getElementById('previewCard');
                 const downloadLink = document.getElementById('downloadLink');
 
-                // UI Hazırlığı
+                // UI Loading State
                 status.style.display = 'block';
-                status.style.color = '#0dcaf0'; // Açık mavi (Koyu temada iyi görünür)
-                status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> Extracting video...';
+                status.style.color = '#60a5fa'; 
+                status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> Processing video...';
                 fetchBtn.disabled = true;
                 previewCard.style.display = 'none';
 
@@ -148,11 +194,11 @@
                         
                         previewCard.style.display = 'block';
                     } else {
-                        status.style.color = '#ff6b6b'; // Açık kırmızı
-                        status.innerHTML = '<i class="bi bi-x-circle me-1"></i> Error: ' + data.message;
+                        status.style.color = '#f87171'; 
+                        status.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Error: ' + data.message;
                     }
                 } catch (error) {
-                    status.style.color = '#ff6b6b';
+                    status.style.color = '#f87171';
                     status.innerHTML = 'Connection failed! Please try again.';
                 } finally {
                     fetchBtn.disabled = false;
