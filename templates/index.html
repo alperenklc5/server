@@ -48,13 +48,16 @@
         </div>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const downloadForm = document.getElementById('downloadForm');
-        
-        // Form gönderildiğinde tetiklenir
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Kodun çalıştığını teyit etmek için konsola yazı basalım
+    console.log("SİSTEM GÜNCEL: Versiyon 2.1 devrede!");
+
+    const downloadForm = document.getElementById('downloadForm');
+    
+    if (downloadForm) {
         downloadForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Sayfanın yenilenmesini engeller
+            e.preventDefault();
             
             const urlInput = document.getElementById('urlInput');
             const status = document.getElementById('status');
@@ -62,15 +65,14 @@
             const previewCard = document.getElementById('previewCard');
             const downloadLink = document.getElementById('downloadLink');
 
-            // 1. Ekranı hazırla
+            // Ekran Hazırlığı
             status.style.display = 'block';
             status.style.color = '#3b82f6';
-            status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> Video işleniyor, lütfen bekleyin...';
+            status.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> Video işleniyor...';
             fetchBtn.disabled = true;
             previewCard.style.display = 'none';
 
             try {
-                // 2. Python Backend'e istek at
                 const response = await fetch('/get-video', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -79,29 +81,24 @@
 
                 const data = await response.json();
 
-                // 3. Yanıtı işle
                 if (data.status === "success") {
                     status.style.display = 'none';
                     document.getElementById('videoTitle').innerText = data.title;
-                    downloadLink.href = data.url; // Gerçek linki butona bağla
+                    downloadLink.href = data.url;
                     previewCard.style.display = 'block';
                 } else {
                     status.style.color = '#dc2626';
-                    status.innerHTML = '<i class="bi bi-x-circle me-1"></i> Hata: ' + data.message;
+                    status.innerHTML = 'Hata: ' + data.message;
                 }
             } catch (error) {
                 status.style.color = '#dc2626';
-                status.innerHTML = '<i class="bi bi-wifi-off me-1"></i> Sunucu bağlantısı kurulamadı!';
+                status.innerHTML = 'Sunucu bağlantı hatası!';
             } finally {
                 fetchBtn.disabled = false;
             }
-            // Script etiketinin en başına şunu ekle ki çalıştığını konsolda görelim
-console.log("SİSTEM GÜNCEL: Versiyon 2.0 çalışıyor!"); 
-
-document.addEventListener('DOMContentLoaded', () => {
-    // ... geri kalan tüm kodların aynı kalsın ...
         });
-    });
-    </script>
+    }
+}); // <--- İşte buralarda bir parantez eksikti!
+</script>
 </body>
 </html>
