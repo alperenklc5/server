@@ -26,7 +26,7 @@ def get_video():
         if not video_url:
             return jsonify({'status': 'error', 'message': 'Lütfen geçerli bir link girin.'})
 
-        # VK için özel HEVC mantığı, tek parça ('best') istiyoruz
+       
         if 'vk.com' in video_url:
             secilen_format = 'best[vcodec~="^hev|^h265"]/best'
         else:
@@ -42,10 +42,10 @@ def get_video():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
             
-            # 1. Direkt linki almayı deniyoruz
+           
             extracted_url = info.get('url')
             
-            # 2. Eğer direkt link yoksa, formatların içine dalıp birleşik videoyu buluyoruz
+           
             if not extracted_url and 'formats' in info:
                 for f in reversed(info['formats']): # En kaliteliler genelde sondayken
                     if f.get('vcodec') != 'none' and f.get('acodec') != 'none':
@@ -104,6 +104,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
