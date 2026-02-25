@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 import yt_dlp
 import os
+from flask import Response, stream_with_context
+import requests
 print("Mevcut klasör içeriği:", os.listdir())
 if os.path.exists('templates'):
     print("Templates klasörü içeriği:", os.listdir('templates'))
@@ -62,6 +64,24 @@ def get_video():
 
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
+@app.route('/proxy-download', methods=['GET'])
+def proxy_download():
+    target_url = request.args.get('url')
+    if not target_url:
+        return "URL bulunamadı", 400
+    
+    try:
+        # 1. Sunucu (Coolify) kendi kimliğiyle Twitter'dan videoyu çekmeye başlar
+        req = requests.get(target_url, stream=True, timeout=15)
+        
+        # 2. Videoyu anında parçalar halinde (stream) kullanıcıya aktarırız
+        headers = {
+            'Content-Disposition': 'attachment; filename="VD_PRO_Video.mp4"',
+            'Content-Type': req.headers.get('content-type', 'video/mp4')
+        }
+        return Response(stream_with_context(req.iter_content(chunk_size=8192)), headers=headers)
+    except Exception as e:
+        return f"İndirme köprüsü çöktü: {str(e)}", 500
 @app.route('/update-cookies', methods=['POST'])
 def update_cookies():
     try:
@@ -84,6 +104,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
