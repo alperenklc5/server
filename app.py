@@ -71,10 +71,26 @@ def proxy_download():
         return "URL bulunamadı", 400
     
     try:
-        # 1. Sunucu (Coolify) kendi kimliğiyle Twitter'dan videoyu çekmeye başlar
-        req = requests.get(target_url, stream=True, timeout=15)
+        # 1. TikTok ve Instagram CDN'lerini kandırmak için GERÇEK bir tarayıcı kimliği
+        req_headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
+            "Accept": "*/*",
+            "Referer": "https://www.tiktok.com/" # Çoğu güvenlik duvarı nereden gelindiğine bakar
+        }
         
-        # 2. Videoyu anında parçalar halinde (stream) kullanıcıya aktarırız
+        # 2. Ajanımızın fırından yeni çıkardığı çerezleri köprüye dahil edelim
+        cj = None
+        if os.path.exists('cookies.txt'):
+            try:
+                cj = http.cookiejar.MozillaCookieJar('cookies.txt')
+                cj.load(ignore_discard=True, ignore_expires=True)
+            except Exception as ce:
+                print(f"Proxy çerez yükleme uyarısı: {ce}")
+
+        # 3. Sunucu (Coolify) kimliğini gizleyerek videoyu çeker
+        req = requests.get(target_url, stream=True, timeout=15, headers=req_headers, cookies=cj)
+        
+        # 4. Videoyu anında parçalar halinde (stream) kullanıcıya aktarırız
         headers = {
             'Content-Disposition': 'attachment; filename="VD_PRO_Video.mp4"',
             'Content-Type': req.headers.get('content-type', 'video/mp4')
@@ -104,6 +120,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
