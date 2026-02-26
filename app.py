@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 import yt_dlp
 import os
-import http.cookiejar
+import http.cookiejar,
+import re
 from flask import Response, stream_with_context
 import requests
 print("Mevcut klasör içeriği:", os.listdir())
@@ -73,18 +74,25 @@ def get_video():
 @app.route('/proxy-download', methods=['GET'])
 def proxy_download():
     target_url = request.args.get('url')
+    
+    # 1. Ön yüzden (frontend) gelen videonun adını yakala. Eğer gelmezse çakışmayı önlemek için rastgele sayı ekle.
+    import random
+    varsayilan_isim = f"Video_{random.randint(1000, 9999)}"
+    video_title = request.args.get('title', varsayilan_isim)
+    
+    # 2. İşletim sistemlerinin dosya adlarında sevmediği yasaklı karakterleri (\ / : * ? " < > |) temizle
+    safe_title = re.sub(r'[\\/*?:"<>|]', "", video_title).strip()
+    
     if not target_url:
         return "URL bulunamadı", 400
     
     try:
-        # 1. TikTok ve Instagram CDN'lerini kandırmak için GERÇEK bir tarayıcı kimliği
         req_headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
             "Accept": "*/*",
-            "Referer": "https://www.tiktok.com/" # Çoğu güvenlik duvarı nereden gelindiğine bakar
+            "Referer": "https://www.tiktok.com/" 
         }
         
-        # 2. Ajanımızın fırından yeni çıkardığı çerezleri köprüye dahil edelim
         cj = None
         if os.path.exists('cookies.txt'):
             try:
@@ -93,15 +101,15 @@ def proxy_download():
             except Exception as ce:
                 print(f"Proxy çerez yükleme uyarısı: {ce}")
 
-        # 3. Sunucu (Coolify) kimliğini gizleyerek videoyu çeker
         req = requests.get(target_url, stream=True, timeout=15, headers=req_headers, cookies=cj)
         
-        # 4. Videoyu anında parçalar halinde (stream) kullanıcıya aktarırız
+        # 3. İŞTE SİHİRLİ DOKUNUŞ BURASI: Sabit isim yerine 'safe_title' değişkenini veriyoruz!
         headers = {
-            'Content-Disposition': 'attachment; filename="VD_PRO_Video.mp4"',
+            'Content-Disposition': f'attachment; filename="{safe_title}.mp4"',
             'Content-Type': req.headers.get('content-type', 'video/mp4')
         }
         return Response(stream_with_context(req.iter_content(chunk_size=8192)), headers=headers)
+        
     except Exception as e:
         return f"İndirme köprüsü çöktü: {str(e)}", 500
 @app.route('/update-cookies', methods=['POST'])
@@ -126,6 +134,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
