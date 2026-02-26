@@ -33,11 +33,17 @@ def get_video():
         else:
             secilen_format = 'best'
 
-        ydl_opts = {
-            'format': secilen_format,
-            'cookiefile': 'cookies.txt',
-            'quiet': True,
-            'no_warnings': True
+      ydl_opts = {
+        'format': secilen_format,
+        'cookiefile': 'cookies.txt',
+        'quiet': True,
+        'no_warnings': True,
+        # --- INSTAGRAM KAMUFLAJI BURADA BAŞLIYOR ---
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+            'Accept-Language': 'tr-TR,tr;q=0.8,en-US;q=0.5,en;q=0.3',
+            'Sec-Fetch-Mode': 'navigate'
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -121,6 +127,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
