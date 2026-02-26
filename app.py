@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import yt_dlp
 import os
+import http.cookiejar
 from flask import Response, stream_with_context
 import requests
 print("Mevcut klasör içeriği:", os.listdir())
@@ -120,6 +121,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
