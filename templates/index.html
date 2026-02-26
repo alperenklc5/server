@@ -228,7 +228,7 @@
                         status.style.display = 'none';
                         document.getElementById('videoTitle').innerText = data.title;
                         
-                        downloadLink.href = '/proxy-download?url=' + encodeURIComponent(data.url);
+                        downloadLink.href = '/proxy-download?url=' + encodeURIComponent(data.url) + '&title=' + encodeURIComponent(data.title);
                         downloadLink.removeAttribute('download');
                         downloadLink.style.display = 'block'; 
                         
