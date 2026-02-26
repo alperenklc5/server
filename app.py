@@ -32,8 +32,7 @@ def get_video():
             secilen_format = 'best[vcodec~="^hev|^h265"]/best'
         else:
             secilen_format = 'best'
-
-      ydl_opts = {
+        ydl_opts = {
         'format': secilen_format,
         'cookiefile': 'cookies.txt',
         'quiet': True,
@@ -127,6 +126,7 @@ def update_cookies():
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
 
